@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: JASPER_TEST
+  datasource:
+    url: jdbc:postgresql://localhost:5432/base_e-com_jasper
+    username: username
+    password: password
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  servlet:
+    context-path: /api/v1/
+  port: 8000
