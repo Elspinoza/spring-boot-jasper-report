@@ -25,6 +25,7 @@ public class Category {
     @GeneratedValue
     private UUID id;
 
+    @Column(unique = true)
     private String name;
 
     @OneToMany(mappedBy = "category")

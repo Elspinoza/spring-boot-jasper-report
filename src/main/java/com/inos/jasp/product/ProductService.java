@@ -5,8 +5,10 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -81,4 +83,52 @@ public class ProductService {
 
     }
 
+    @Transactional
+    public String upgradeQuantity(UUID productId, QuantityRequest request) {
+
+        try {
+
+            var product = repository.findById(productId)
+                    .orElseThrow(()->new EntityNotFoundException("Product is not found."));
+
+            if (request.getQuantity() == null) {
+                throw new RuntimeException("The quantity is not give");
+            }
+            // Calcul de la nouvelle quantité
+            int newQuantity = product.getQuantity() + request.getQuantity();
+
+            Product product1 = new Product();
+            product1.setQuantity(newQuantity);
+
+            return "Product "+product.getName()+ " quantity upgrade successfully. New quantity = "+newQuantity+".";
+
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return "Internal System Error! Contact Admin";
+        }
+    }
+
+    @Transactional
+    public String sellOneProduct(UUID productId, QuantityRequest request) {
+        try {
+
+            var product = repository.findById(productId)
+                    .orElseThrow(()->new EntityNotFoundException("Product is not found."));
+
+            if (request.getQuantity() == null) {
+                throw new RuntimeException("The quantity is not give");
+            }
+            // Calcul de la nouvelle quantité
+            int newQuantity = product.getQuantity() - request.getQuantity();
+
+            Product product1 = new Product();
+            product1.setQuantity(newQuantity);
+
+            return request.getQuantity()+" quantity was sell for the product "+product.getName()+ ". New quantity available = "+newQuantity+".";
+
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return "Internal System Error! Contact Admin";
+        }
+    }
 }

@@ -23,7 +23,7 @@ public class CategoryService {
 
             var saved = repository.save(mapper.toCategory(request));
 
-            return "Category created successfully ID :: "+saved.getId();
+            return "Category "+saved.getName()+" created successfully.";
 
         } catch (RuntimeException e) {
             throw new RuntimeException(e);

@@ -76,5 +76,21 @@ public class ProductController {
                 .body(excelData);
     }
 
+    @PostMapping("/{product_id}/add/quantity")
+    public ResponseEntity<String> upgradeProductQuantity(
+            @PathVariable("product_id") UUID productId,
+            @RequestBody QuantityRequest request
+    ) {
+        return ResponseEntity.ok(service.upgradeQuantity(productId, request));
+    }
+
+    @PostMapping("/sell/{product_id}")
+    public ResponseEntity<String> purchase(
+            @PathVariable("product_id") UUID productId,
+            @RequestBody QuantityRequest request
+    ) {
+        return ResponseEntity.ok(service.sellOneProduct(productId, request));
+    }
+
 
 }
